@@ -276,7 +276,7 @@ def loops_6():
     return field
 
 
-    return None
+
 
 
 def loops_7():
@@ -300,7 +300,23 @@ def loops_7():
     This is a hard problem. Use lots of experimentation and draw
     lots of diagrams!
     """
-    return None
+
+    
+    pyramid = []  # Initialize the main list to hold all rows
+    rows = 5  # Number of rows in the pyramid
+    
+    for i in range(rows):
+        # Create a row with spaces (' ')
+        row = [' ' for _ in range(2 * rows - 1)]
+        
+        # Fill in the appropriate positions with asterisks ('*')
+        for j in range(rows - i - 1, rows + i):
+            row[j] = '*'
+        
+        # Append the row to the main list
+        pyramid.append(row)
+    
+    return pyramid
 
 
 if __name__ == "__main__":

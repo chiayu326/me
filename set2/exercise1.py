@@ -48,5 +48,6 @@ def usefulFunction():
     print(platform.uname()) #it printed "uname_result(system='Windows', node='DESKTOP-MGHQ3DG', release='11', version='10.0.22631', machine='AMD64')"
 
 
+
 #I think this will run usefulFunction 
 usefulFunction()
