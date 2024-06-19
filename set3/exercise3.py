@@ -3,6 +3,7 @@
 Steps on the way to making your own guessing game.
 """
 
+
 import random
 
 def get_valid_number(prompt):

@@ -4,6 +4,7 @@
 import math
 
 
+
 def binary_search(low, high, actual_number):
     """Do a binary search.
 

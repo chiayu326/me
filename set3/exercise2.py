@@ -7,6 +7,7 @@ This will give you some intuition about how to make exercise 3 more robust.
 """
 
 
+
 import random
 
 

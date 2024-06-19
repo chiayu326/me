@@ -1,4 +1,5 @@
 TODO: Reflect on what you learned this week and what is still unclear.
+
 learn the while loop
 
 learn how to use try and except
