@@ -7,6 +7,8 @@ import requests
 import inspect
 import sys
 
+
+
 # Handy constants
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -16,7 +18,7 @@ if LOCAL != CWD:
     Be careful that your relative paths are
     relative to where you think they are
     LOCAL: {LOCAL}
-    CWD: "CWD
+    CWD: {CWD}
     """
     )
 
@@ -40,7 +42,17 @@ def get_some_details():
     json_data = open(LOCAL + "/lazyduck.json").read()
 
     data = json.loads(json_data)
-    return {"lastName": None, "password": None, "postcodePlusID": None}
+
+    last_name = data["results"][0]["name"]["last"]
+    password = data["results"][0]["login"]["password"]
+    postcode = data["results"][0]["location"]["postcode"]
+    id_value = data["results"][0]["id"]["value"]
+
+
+    postcode_plus_id = int(postcode) + int(id_value)
+
+    return {"lastName": last_name,"password": password,"postcodePlusID": postcode_plus_id}
+
 
 
 def wordy_pyramid():
@@ -77,9 +89,25 @@ def wordy_pyramid():
     ]
     TIP: to add an argument to a URL, use: ?argName=argVal e.g. &wordlength=
     """
+
+    base_url = "https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word"
     pyramid = []
 
+    for length in range(3, 21, 2):
+        r = requests.get(f"{base_url}?wordlength={length}")        
+        if r.status_code == 200:
+            word = r.text
+            pyramid.append(word)
+        
+
+    for length in range(20, 2, -2):
+        r = requests.get(f"{base_url}?wordlength={length}")
+        if r.status_code == 200:
+            word = r.text
+            pyramid.append(word)
+
     return pyramid
+
 
 
 def pokedex(low=1, high=5):
@@ -96,13 +124,27 @@ def pokedex(low=1, high=5):
          get very long. If you are accessing a thing often, assign it to a
          variable and then future access will be easier.
     """
-    id = 5
-    url = f"https://pokeapi.co/api/v2/pokemon/{id}"
-    r = requests.get(url)
-    if r.status_code is 200:
-        the_json = json.loads(r.text)
+    
 
-    return {"name": None, "weight": None, "height": None}
+    height_tallest = 0
+
+    for i in range (low, high) :
+        id = i
+        url = f"https://pokeapi.co/api/v2/pokemon/{id}"
+        r = requests.get(url)
+        if r.status_code == 200:
+            the_json = json.loads(r.text)
+
+        height = the_json["height"]
+
+
+        if height > height_tallest :
+            height_tallest = height
+            name = the_json["name"]
+            weight = the_json["weight"]
+    
+
+    return {"name": name, "weight": weight, "height": height_tallest}
 
 
 def diarist():
@@ -122,6 +164,20 @@ def diarist():
 
     NOTE: this function doesn't return anything. It has the _side effect_ of modifying the file system
     """
+
+    # Define the path to the gcode file and the output file
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    gcode_file_path = os.path.join(current_dir, "Trispokedovetiles(laser).gcode")
+    output_file_path = os.path.join(current_dir, "lasers.pew")
+
+    with open(gcode_file_path, "r") as file:
+        gcode_content = file.read()
+        m10_p1_count = gcode_content.count("M10 P1")
+
+    # Write the count to the output file
+    with open(output_file_path, "w") as file:
+        file.write(str(m10_p1_count))
+        
     pass
 
 
