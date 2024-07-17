@@ -177,8 +177,7 @@ def diarist():
     # Write the count to the output file
     with open(output_file_path, "w") as file:
         file.write(str(m10_p1_count))
-
-
+        
     pass
 
 
